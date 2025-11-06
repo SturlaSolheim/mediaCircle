@@ -6,13 +6,13 @@ import (
 
 	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
+	"github.com/SturlaSolheim/mediaCircleBackend/service"
 	// "github.com/go-chi/chi/v5"
 )
 
 func GetAlbums(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	repo := database.NewAlbumRepository()
-	albums, err := repo.FindAll()
+	albums, err := service.GetAlbums()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

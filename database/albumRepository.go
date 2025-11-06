@@ -13,7 +13,6 @@ func NewAlbumRepository() *AlbumRepository {
 	return &AlbumRepository{db: DB}
 }
 
-// Save creates or updates an album (like Hibernate's save/persist)
 func (r *AlbumRepository) Save(album *models.Album) error {
 	return r.db.Save(album).Error
 }
@@ -39,17 +38,14 @@ func (r *AlbumRepository) FindByName(name string) ([]models.Album, error) {
 	return albums, err
 }
 
-// Delete removes an album by ID (like Hibernate's delete)
 func (r *AlbumRepository) Delete(id uint) error {
 	return r.db.Delete(&models.Album{}, id).Error
 }
 
-// DeleteByEntity removes an album entity (like Hibernate's delete by entity)
 func (r *AlbumRepository) DeleteByEntity(album *models.Album) error {
 	return r.db.Delete(album).Error
 }
 
-// Count returns the total number of albums
 func (r *AlbumRepository) Count() (int64, error) {
 	var count int64
 	err := r.db.Model(&models.Album{}).Count(&count).Error
