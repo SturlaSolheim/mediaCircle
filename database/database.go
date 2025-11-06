@@ -1,22 +1,19 @@
 package database
 
 import (
-	"database/sql"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/SturlaSolheim/mediaCircleBackend/models"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-var DB *sql.DB
+var DB *gorm.DB
 
 func InitInMemoryDB() error {
 	var err error
-	DB, err = sql.Open("sqlite3", ":memory:")
+	DB, err = gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
-		return err
-	}
-
-	if err = DB.Ping(); err != nil {
 		return err
 	}
 
@@ -25,15 +22,7 @@ func InitInMemoryDB() error {
 }
 
 func CreateTables() error {
-	query := `
-	CREATE TABLE IF NOT EXISTS album (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		name TEXT NOT NULL,
-		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);
-	`
-	
-	_, err := DB.Exec(query)
+	err := DB.AutoMigrate(&models.Album{})
 	if err != nil {
 		return err
 	}
@@ -44,7 +33,11 @@ func CreateTables() error {
 
 func CloseDB() error {
 	if DB != nil {
-		return DB.Close()
+		sqlDB, err := DB.DB()
+		if err != nil {
+			return err
+		}
+		return sqlDB.Close()
 	}
 	return nil
 }
