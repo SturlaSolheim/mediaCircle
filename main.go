@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"github.com/SturlaSolheim/mediaCircleBackend/routes"
 	"github.com/go-chi/chi/v5"
@@ -12,6 +13,16 @@ import (
 )
 
 func main() {
+	if err := database.InitInMemoryDB(); err != nil {
+		log.Fatal("Det skjedde en feil under oppstart av database", err)
+	}
+	defer database.CloseDB()
+
+	// Create tables
+	if err := database.CreateTables(); err != nil {
+		log.Fatal("Det skjedde en feil under tabelldannelse", err)
+	}
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
