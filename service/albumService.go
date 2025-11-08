@@ -14,10 +14,13 @@ func NewAlbumService() *AlbumService {
 }
 
 func (a *AlbumService) GetAlbums() ([]models.Album, error) {
-	repo := database.NewAlbumRepository()
-	albums, err := repo.FindAll()
+	albums, err := a.repo.FindAll()
 	if err != nil {
 		return nil, err  
 	}
 	return albums, nil
+}
+
+func (a *AlbumService) CreateAlbum(album models.Album) error {
+	return a.repo.Save(&album)
 }

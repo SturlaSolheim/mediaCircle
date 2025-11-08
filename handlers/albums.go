@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"github.com/SturlaSolheim/mediaCircleBackend/service"
 	// "github.com/go-chi/chi/v5"
@@ -24,50 +23,32 @@ func (h *AlbumHandler)GetAlbums(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	albums, err := h.albumService.GetAlbums()
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			returnInternalServerError(w)
 			return
 		}
 	json.NewEncoder(w).Encode(albums)
 }
 
 func GetAlbum(w http.ResponseWriter, r *http.Request) {
-	// id := chi.URLParam(r, "id")
-	w.Header().Set("Content-Type", "application/json")
-
-
-	w.WriteHeader(http.StatusNotFound)
-	json.NewEncoder(w).Encode(models.Response{Message: "Ikke implementert enda", Status: 204})
+	returnNotImplemented(w)
 }
 
 func (h *AlbumHandler)CreateAlbum(w http.ResponseWriter, r *http.Request) {
 	var album models.Album
 	err := json.NewDecoder(r.Body).Decode(&album)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(models.Response{
-			Message: "Invalid request",
-			Status:  400,
-		})
+		returnBadRequest(w)
 		return
 	}
 	
 	if album.Name == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(models.Response{
-			Message: "Album name is required",
-			Status:  400,
-		})
+		returnBadRequest(w)
 		return
 	}
 	
-	repo := database.NewAlbumRepository()
-	err = repo.Save(&album)
+	err = h.albumService.CreateAlbum(album)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(models.Response{
-			Message: "En feil skjedde",
-			Status:  500,
-		})
+		returnInternalServerError(w)
 		return
 	}
 	
@@ -76,11 +57,31 @@ func (h *AlbumHandler)CreateAlbum(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateAlbum(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	json.NewEncoder(w).Encode(models.Response{Message: "Ikke implementert enda", Status: 204})
+	returnNotImplemented(w)
 }
 
 func DeleteAlbum(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	json.NewEncoder(w).Encode(models.Response{Message: "Ikke implementert enda", Status: 204})
+	returnNotImplemented(w)
+}
+
+
+func returnBadRequest(w http.ResponseWriter) {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(models.Response{
+			Message: "Invalid request",
+			Status:  400,
+		})
+}
+
+func returnInternalServerError(w http.ResponseWriter){
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(models.Response{
+			Message: "En feil skjedde",
+			Status:  500,
+		})
+}
+
+func returnNotImplemented(w http.ResponseWriter){
+	w.WriteHeader(http.StatusNotImplemented)
+	json.NewEncoder(w).Encode(models.Response{Message: "Ikke implementert enda", Status: 501})
 }
