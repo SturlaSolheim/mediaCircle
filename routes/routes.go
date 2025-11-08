@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/handlers"
+	"github.com/SturlaSolheim/mediaCircleBackend/repository"
 	"github.com/SturlaSolheim/mediaCircleBackend/service"
 	"github.com/go-chi/chi/v5"
 )
@@ -12,8 +13,13 @@ type Container struct {
 }
 
 func NewContainer() *Container {
-	albumRepo := database.NewAlbumRepository()
-	albumService := service.NewAlbumService(*albumRepo) 
+	// Repositories
+	albumRepo := repository.NewAlbumRepository(database.DB)
+
+	// Services
+	albumService := service.NewAlbumService(albumRepo) 
+
+	// Handlers
 	albumHandler := handlers.NewAlbumHandler(*albumService)
 	
 	return &Container{

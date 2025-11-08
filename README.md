@@ -10,7 +10,7 @@ go run main.go
 
 ## TODO
 
-[] Fikse dependancy management
+[x] Fikse dependancy management
 [x] Enviroment variabler
 [x] Forskjellige profiler
 [] Sette opp enhetstester

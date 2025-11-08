@@ -1,13 +1,13 @@
 package service
 
 import (
-	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
+	"github.com/SturlaSolheim/mediaCircleBackend/repository"
 )
 type AlbumService struct {
-	repo database.AlbumRepository
+	repo repository.AlbumRepositoryInterface
 }
-func NewAlbumService(repo database.AlbumRepository) *AlbumService {
+func NewAlbumService(repo repository.AlbumRepositoryInterface) *AlbumService {
 	return &AlbumService{repo: repo}
 }
 
