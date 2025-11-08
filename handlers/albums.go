@@ -10,9 +10,19 @@ import (
 	// "github.com/go-chi/chi/v5"
 )
 
-func GetAlbums(w http.ResponseWriter, r *http.Request) {
+type AlbumHandler struct {
+	albumService *service.AlbumService
+}
+
+func NewAlbumHandler() *AlbumHandler {
+	return &AlbumHandler{
+		albumService: service.NewAlbumService(),
+	}
+}
+
+func (h *AlbumHandler)GetAlbums(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	albums, err := service.GetAlbums()
+	albums, err := h.albumService.GetAlbums()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -29,7 +39,7 @@ func GetAlbum(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(models.Response{Message: "Ikke implementert enda", Status: 204})
 }
 
-func CreateAlbum(w http.ResponseWriter, r *http.Request) {
+func (h *AlbumHandler)CreateAlbum(w http.ResponseWriter, r *http.Request) {
 	var album models.Album
 	err := json.NewDecoder(r.Body).Decode(&album)
 	if err != nil {
