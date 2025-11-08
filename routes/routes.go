@@ -7,19 +7,30 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func SetupRoutes(r chi.Router) {
+type Container struct {
+	AlbumHandler *handlers.AlbumHandler
+}
+
+func NewContainer() *Container {
 	albumRepo := database.NewAlbumRepository()
-	albumService := service.NewAlbumService(*albumRepo)
+	albumService := service.NewAlbumService(*albumRepo) 
 	albumHandler := handlers.NewAlbumHandler(*albumService)
+	
+	return &Container{
+		AlbumHandler: albumHandler,
+	}
+}
+
+func (c *Container) SetupRoutes(r chi.Router) {
 
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Get("/health", handlers.HealthCheck)
 		r.Route("/albums", func(r chi.Router) {
-			r.Get("/", albumHandler.GetAlbums)
-			r.Post("/", albumHandler.CreateAlbum)
-			r.Get("/{id}", handlers.GetAlbum)
-			r.Put("/{id}", handlers.UpdateAlbum)
-			r.Delete("/{id}", handlers.DeleteAlbum)
+			r.Get("/", c.AlbumHandler.GetAlbums)
+			r.Post("/", c.AlbumHandler.CreateAlbum)
+			r.Get("/{id}", c.AlbumHandler.GetAlbum)
+			r.Put("/{id}", c.AlbumHandler.UpdateAlbum)
+			r.Delete("/{id}", c.AlbumHandler.DeleteAlbum)
 		})
 	})
 }

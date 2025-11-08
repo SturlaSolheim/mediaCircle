@@ -39,7 +39,8 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	routes.SetupRoutes(r)
+	container := routes.NewContainer()
+	container.SetupRoutes(r)
 
 	log.Println("Server starting on :8080")
 	http.ListenAndServe(":8080", r)

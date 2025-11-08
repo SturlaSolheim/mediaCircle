@@ -29,11 +29,11 @@ func (h *AlbumHandler)GetAlbums(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(albums)
 }
 
-func GetAlbum(w http.ResponseWriter, r *http.Request) {
+func (h *AlbumHandler) GetAlbum(w http.ResponseWriter, r *http.Request) {
 	returnNotImplemented(w)
 }
 
-func (h *AlbumHandler)CreateAlbum(w http.ResponseWriter, r *http.Request) {
+func (h *AlbumHandler) CreateAlbum(w http.ResponseWriter, r *http.Request) {
 	var album models.Album
 	err := json.NewDecoder(r.Body).Decode(&album)
 	if err != nil {
@@ -56,11 +56,11 @@ func (h *AlbumHandler)CreateAlbum(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(album)
 }
 
-func UpdateAlbum(w http.ResponseWriter, r *http.Request) {
+func (h *AlbumHandler) UpdateAlbum(w http.ResponseWriter, r *http.Request) {
 	returnNotImplemented(w)
 }
 
-func DeleteAlbum(w http.ResponseWriter, r *http.Request) {
+func (h *AlbumHandler)DeleteAlbum(w http.ResponseWriter, r *http.Request) {
 	returnNotImplemented(w)
 }
 
