@@ -11,8 +11,8 @@ go run main.go
 ## TODO
 
 [] Fikse dependancy management
-[] Enviroment variabler
-[] Forskjellige profiler
+[x] Enviroment variabler
+[x] Forskjellige profiler
 [] Sette opp enhetstester
 [] Implementere Liquibase
 [] OpenApi for kontrakt

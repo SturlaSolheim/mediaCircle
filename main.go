@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/SturlaSolheim/mediaCircleBackend/config"
 	"github.com/SturlaSolheim/mediaCircleBackend/database"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"github.com/SturlaSolheim/mediaCircleBackend/routes"
@@ -13,12 +14,15 @@ import (
 )
 
 func main() {
-	if err := database.InitInMemoryDB(); err != nil {
+	if err := config.LoadConfig(); err != nil {
+		log.Fatal("Det skjedde en feil under lasting av konfigurasjon", err)
+	}
+
+	if err := database.InitDB(); err != nil {
 		log.Fatal("Det skjedde en feil under oppstart av database", err)
 	}
 	defer database.CloseDB()
 
-	// Create tables
 	if err := database.CreateTables(); err != nil {
 		log.Fatal("Det skjedde en feil under tabelldannelse", err)
 	}
@@ -42,6 +46,7 @@ func main() {
 	container := routes.NewContainer()
 	container.SetupRoutes(r)
 
-	log.Println("Server starting on :8080")
-	http.ListenAndServe(":8080", r)
+	address := config.AppConfig.GetServerAddress()
+	log.Printf("Server starting on %s", address)
+	http.ListenAndServe(address, r)
 }

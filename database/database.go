@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 
+	"github.com/SturlaSolheim/mediaCircleBackend/config"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -10,14 +11,15 @@ import (
 
 var DB *gorm.DB
 
-func InitInMemoryDB() error {
+func InitDB() error {
 	var err error
-	DB, err = gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	connection := config.AppConfig.Database.Connection
+	DB, err = gorm.Open(sqlite.Open(connection), &gorm.Config{})
 	if err != nil {
 		return err
 	}
 
-	log.Println("sqlite in memory database kjører")
+	log.Printf("Database initialized with connection: %s", connection)
 	return nil
 }
 
