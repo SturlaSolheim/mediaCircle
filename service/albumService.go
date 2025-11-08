@@ -5,12 +5,10 @@ import (
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 )
 type AlbumService struct {
-	repo *database.AlbumRepository
+	repo database.AlbumRepository
 }
-func NewAlbumService() *AlbumService {
-    return &AlbumService{
-        repo: database.NewAlbumRepository(),
-    }
+func NewAlbumService(repo database.AlbumRepository) *AlbumService {
+	return &AlbumService{repo: repo}
 }
 
 func (a *AlbumService) GetAlbums() ([]models.Album, error) {

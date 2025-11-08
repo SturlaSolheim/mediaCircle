@@ -13,9 +13,9 @@ type AlbumHandler struct {
 	albumService *service.AlbumService
 }
 
-func NewAlbumHandler() *AlbumHandler {
+func NewAlbumHandler(albumService service.AlbumService) *AlbumHandler {
 	return &AlbumHandler{
-		albumService: service.NewAlbumService(),
+		albumService: &albumService,
 	}
 }
 
