@@ -5,14 +5,12 @@ Dette er et rest api for Media Circle. En applikasjon for roterende medialister
 ## Hvordan bruke
 
 ### Kjør applikasjonen:
+
 go run main.go
 
-### Generere mocks
-Når du har endret eller lagt til et nytt interface, kjør denne:
-go run github.com/vektra/mockery/v2@latest                                                                                                               │  -d '{"name": "Summer Vibes"}'
+### Kjøre tester
 
-### Kjør alle testene:
-go test ./...
+For å kjøre alle testene kan du bruke tst.sh scriptet. Det genererer mocks og kjører tester
 
 
 ## TODO
