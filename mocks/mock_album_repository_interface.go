@@ -20,6 +20,62 @@ func (_m *MockAlbumRepositoryInterface) EXPECT() *MockAlbumRepositoryInterface_E
 	return &MockAlbumRepositoryInterface_Expecter{mock: &_m.Mock}
 }
 
+// Create provides a mock function with given fields: album
+func (_m *MockAlbumRepositoryInterface) Create(album *models.Album) (models.Album, error) {
+	ret := _m.Called(album)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Create")
+	}
+
+	var r0 models.Album
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*models.Album) (models.Album, error)); ok {
+		return rf(album)
+	}
+	if rf, ok := ret.Get(0).(func(*models.Album) models.Album); ok {
+		r0 = rf(album)
+	} else {
+		r0 = ret.Get(0).(models.Album)
+	}
+
+	if rf, ok := ret.Get(1).(func(*models.Album) error); ok {
+		r1 = rf(album)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockAlbumRepositoryInterface_Create_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Create'
+type MockAlbumRepositoryInterface_Create_Call struct {
+	*mock.Call
+}
+
+// Create is a helper method to define mock.On call
+//   - album *models.Album
+func (_e *MockAlbumRepositoryInterface_Expecter) Create(album interface{}) *MockAlbumRepositoryInterface_Create_Call {
+	return &MockAlbumRepositoryInterface_Create_Call{Call: _e.mock.On("Create", album)}
+}
+
+func (_c *MockAlbumRepositoryInterface_Create_Call) Run(run func(album *models.Album)) *MockAlbumRepositoryInterface_Create_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(*models.Album))
+	})
+	return _c
+}
+
+func (_c *MockAlbumRepositoryInterface_Create_Call) Return(_a0 models.Album, _a1 error) *MockAlbumRepositoryInterface_Create_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockAlbumRepositoryInterface_Create_Call) RunAndReturn(run func(*models.Album) (models.Album, error)) *MockAlbumRepositoryInterface_Create_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // FindAll provides a mock function with no fields
 func (_m *MockAlbumRepositoryInterface) FindAll() ([]models.Album, error) {
 	ret := _m.Called()
@@ -73,52 +129,6 @@ func (_c *MockAlbumRepositoryInterface_FindAll_Call) Return(_a0 []models.Album, 
 }
 
 func (_c *MockAlbumRepositoryInterface_FindAll_Call) RunAndReturn(run func() ([]models.Album, error)) *MockAlbumRepositoryInterface_FindAll_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Save provides a mock function with given fields: album
-func (_m *MockAlbumRepositoryInterface) Save(album *models.Album) error {
-	ret := _m.Called(album)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Save")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(*models.Album) error); ok {
-		r0 = rf(album)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// MockAlbumRepositoryInterface_Save_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Save'
-type MockAlbumRepositoryInterface_Save_Call struct {
-	*mock.Call
-}
-
-// Save is a helper method to define mock.On call
-//   - album *models.Album
-func (_e *MockAlbumRepositoryInterface_Expecter) Save(album interface{}) *MockAlbumRepositoryInterface_Save_Call {
-	return &MockAlbumRepositoryInterface_Save_Call{Call: _e.mock.On("Save", album)}
-}
-
-func (_c *MockAlbumRepositoryInterface_Save_Call) Run(run func(album *models.Album)) *MockAlbumRepositoryInterface_Save_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(*models.Album))
-	})
-	return _c
-}
-
-func (_c *MockAlbumRepositoryInterface_Save_Call) Return(_a0 error) *MockAlbumRepositoryInterface_Save_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockAlbumRepositoryInterface_Save_Call) RunAndReturn(run func(*models.Album) error) *MockAlbumRepositoryInterface_Save_Call {
 	_c.Call.Return(run)
 	return _c
 }

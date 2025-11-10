@@ -12,6 +12,8 @@ go run main.go
 
 For å kjøre alle testene kan du bruke tst.sh scriptet. Det genererer mocks og kjører tester
 
+## Flyt for å legge til endepunkt i APIet
+
 
 ## TODO
 
@@ -19,5 +21,6 @@ For å kjøre alle testene kan du bruke tst.sh scriptet. Det genererer mocks og 
 [x] Enviroment variabler
 [x] Forskjellige profiler
 [x] Sette opp enhetstester
-[] OpenApi for kontrakt
+[x] OpenApi for kontrakt
+[] Finne ut av om DI setup i routes er riktig
 [] Implementere agnostisk databasemigrering

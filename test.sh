@@ -5,6 +5,7 @@
 set -e  
 
 echo "Genererer mocks"
+rm -r mocks
 go run github.com/vektra/mockery/v2@latest
 
 echo "Mocks generert"

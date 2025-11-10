@@ -6,7 +6,7 @@ import (
 )
 
 type AlbumRepositoryInterface interface {
-	Save(album *models.Album) error
+	Create(album *models.Album) (models.Album, error)
 	FindAll() ([]models.Album, error)
 }
 
@@ -18,8 +18,9 @@ func NewAlbumRepository(db *gorm.DB) AlbumRepositoryInterface {
 	return &albumRepository{db: db}
 }
 
-func (r *albumRepository) Save(album *models.Album) error {
-	return r.db.Save(album).Error
+func (r *albumRepository) Create(album *models.Album) (models.Album, error) {
+	result := r.db.Create(&album)
+	return *album, result.Error
 }
 
 func (r *albumRepository) FindAll() ([]models.Album, error) {

@@ -3,15 +3,17 @@ package service
 import (
 	"testing"
 
-	"github.com/SturlaSolheim/mediaCircleBackend/models"
+	"github.com/SturlaSolheim/mediaCircleBackend/mappers"
 	mocks "github.com/SturlaSolheim/mediaCircleBackend/mocks"
+	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestAlbumService_GetAlbums(t *testing.T) {
-	setup := func() (*mocks.MockAlbumRepositoryInterface, *AlbumService) {
+	setup := func() (*mocks.MockAlbumRepositoryInterface, AlbumService) {
 		mockRepo := mocks.NewMockAlbumRepositoryInterface(t)
-		albumService := NewAlbumService(mockRepo)
+		albumMapper := mappers.NewAlbumMapper()
+		albumService := NewAlbumService(mockRepo, *albumMapper)
 		return mockRepo, albumService
 	}
 
@@ -28,7 +30,12 @@ func TestAlbumService_GetAlbums(t *testing.T) {
 		result, err := albumService.GetAlbums()
 
 		assert.NoError(t, err)
-		assert.Equal(t, expectedAlbums, result)
+		assert.Equal(t, len(expectedAlbums), len(result))
+		assert.Equal(t, expectedAlbums[0].Name, result[0].Name)
+		assert.Equal(t, expectedAlbums[0].ID, result[0].Id)
+
+		assert.Equal(t, expectedAlbums[1].Name, result[1].Name)
+		assert.Equal(t, expectedAlbums[1].ID, result[1].Id)
 	})
 
 }

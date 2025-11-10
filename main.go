@@ -43,10 +43,10 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	container := routes.NewContainer()
-	container.SetupRoutes(r)
+	openAPIContainer := routes.NewOpenAPIContainer()
+	openAPIContainer.SetupOpenAPIRoutes(r)
 
 	address := config.AppConfig.GetServerAddress()
-	log.Printf("Server starting on %s", address)
+	log.Printf("Server started on %s", address)
 	http.ListenAndServe(address, r)
 }

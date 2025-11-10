@@ -1,0 +1,10 @@
+generate:
+  models: true
+  client: false
+  server: true
+  spec: false
+  embedded-spec: false
+output-options:
+  skip-prune: true
+package: generated
+output: ./generated/openapi_types.go

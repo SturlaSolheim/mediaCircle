@@ -1,0 +1,13 @@
+generate:
+  models: false
+  client: false
+  server: true
+  spec: false
+  embedded-spec: false
+output-options:
+  skip-prune: true
+  include-tags:
+    - health
+  exclude-tags: []
+package: generated
+output: ./generated/health_handler.go

@@ -1,24 +1,38 @@
 package service
 
 import (
+	"github.com/SturlaSolheim/mediaCircleBackend/generated"
+	"github.com/SturlaSolheim/mediaCircleBackend/mappers"
 	"github.com/SturlaSolheim/mediaCircleBackend/models"
 	"github.com/SturlaSolheim/mediaCircleBackend/repository"
 )
-type AlbumService struct {
-	repo repository.AlbumRepositoryInterface
-}
-func NewAlbumService(repo repository.AlbumRepositoryInterface) *AlbumService {
-	return &AlbumService{repo: repo}
+
+type AlbumService interface {
+	GetAlbums() ([]generated.Album, error)
+	CreateAlbum(string) (generated.Album, error)
 }
 
-func (a *AlbumService) GetAlbums() ([]models.Album, error) {
+type AlbumServiceImpl struct {
+	repo repository.AlbumRepositoryInterface;
+	albumMapper mappers.AlbumMapper;
+}
+func NewAlbumService(
+	repo repository.AlbumRepositoryInterface,
+	albumMapper mappers.AlbumMapper,
+) AlbumService {
+	return &AlbumServiceImpl{repo: repo, albumMapper: albumMapper}
+}
+
+func (a *AlbumServiceImpl) GetAlbums() ([]generated.Album, error) {
 	albums, err := a.repo.FindAll()
 	if err != nil {
 		return nil, err  
 	}
-	return albums, nil
+	return a.albumMapper.FromModelToGeneratedAlbums(albums), nil;
 }
 
-func (a *AlbumService) CreateAlbum(album models.Album) error {
-	return a.repo.Save(&album)
+func (a *AlbumServiceImpl) CreateAlbum(albumnavn string) (generated.Album, error) {
+	album := models.Album{Name: albumnavn}
+	albumModel, err := a.repo.Create(&album)
+	return  a.albumMapper.FromModelToGeneratedAlbum(albumModel), err 
 }
