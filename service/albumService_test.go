@@ -21,8 +21,8 @@ func TestAlbumService_GetAlbums(t *testing.T) {
 		mockRepo, albumService := setup()
 
 		expectedAlbums := []models.Album{
-			{ID: 1, Name: "Test Album 1"},
-			{ID: 2, Name: "Test Album 2"},
+			{ID: uint(1), Name: "Test Album 1"},
+			{ID: uint(2), Name: "Test Album 2"},
 		}
 
 		mockRepo.EXPECT().FindAll().Return(expectedAlbums, nil)
@@ -32,10 +32,9 @@ func TestAlbumService_GetAlbums(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, len(expectedAlbums), len(result))
 		assert.Equal(t, expectedAlbums[0].Name, result[0].Name)
-		assert.Equal(t, expectedAlbums[0].ID, result[0].Id)
+		assert.Equal(t, expectedAlbums[0].ID, uint(result[0].Id))
 
 		assert.Equal(t, expectedAlbums[1].Name, result[1].Name)
-		assert.Equal(t, expectedAlbums[1].ID, result[1].Id)
+		assert.Equal(t, expectedAlbums[1].ID, uint(result[1].Id))
 	})
-
 }
