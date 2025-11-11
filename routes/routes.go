@@ -26,12 +26,10 @@ func NewOpenAPIContainer() *OpenAPIContainer {
 
 	// Handlers
 	albumHandler := handlers.NewOpenAPIAlbumHandler(albumService)
-	healthHandler := handlers.NewOpenAPIHealthHandler()
 
 	// Composite
 	compositeHandler := handlers.NewCompositeHandler(
 		albumHandler,
-		healthHandler,
 	)
 
 	return &OpenAPIContainer{

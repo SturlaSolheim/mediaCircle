@@ -18,9 +18,6 @@ type ServerInterface interface {
 	// Nytt Album
 	// (POST /albums)
 	CreateAlbum(w http.ResponseWriter, r *http.Request)
-	// Health check endpoint
-	// (GET /health)
-	HealthCheck(w http.ResponseWriter, r *http.Request)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -36,12 +33,6 @@ func (_ Unimplemented) GetAlbums(w http.ResponseWriter, r *http.Request) {
 // Nytt Album
 // (POST /albums)
 func (_ Unimplemented) CreateAlbum(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Health check endpoint
-// (GET /health)
-func (_ Unimplemented) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -75,21 +66,6 @@ func (siw *ServerInterfaceWrapper) CreateAlbum(w http.ResponseWriter, r *http.Re
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.CreateAlbum(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
-
-// HealthCheck operation middleware
-func (siw *ServerInterfaceWrapper) HealthCheck(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.HealthCheck(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -217,9 +193,6 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/albums", wrapper.CreateAlbum)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/health", wrapper.HealthCheck)
 	})
 
 	return r

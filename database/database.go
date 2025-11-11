@@ -37,6 +37,22 @@ func InitDB() error {
 
 func AutoMigrate() error {
 	models := []interface{}{
+		&models.MediaType{},
+		&models.Media{},
+		&models.MediaTypeFormat{},
+		&models.ListeType{},
+		&models.Liste{},
+		&models.ListeInstans{},
+		&models.ListeInstansTick{},
+		&models.ListeMediaTilhorighet{},
+		&models.Bruker{},
+		&models.Gruppe{},
+		&models.GruppeTilhorighet{},
+		&models.BrukerListeInstansTilhorighet{},
+		&models.GruppeListeInstansTilhorighet{},
+		&models.MetadataSchema{},
+		&models.MediaMetadata{},
+		&models.Anmeldelse{},
 		&models.Album{},
 	}
 
