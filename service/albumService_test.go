@@ -38,3 +38,24 @@ func TestAlbumService_GetAlbums(t *testing.T) {
 		assert.Equal(t, expectedAlbums[1].ID, uint(result[1].Id))
 	})
 }
+
+func TestAlbumService_CreateAlbum(t *testing.T){
+	setup := func() (*mocks.MockAlbumRepositoryInterface, AlbumService) {
+		mockRepo := mocks.NewMockAlbumRepositoryInterface(t)
+		albumMapper := mappers.NewAlbumMapper()
+		albumService := NewAlbumService(mockRepo, *albumMapper)
+		return mockRepo, albumService
+	}
+	t.Run("Fungerer riktig", func(t *testing.T) {
+		mockRepo, albumService := setup()
+
+		expectedAlbum := models.Album{ID: uint(1), Name: "Abbey Road"}
+
+		mockRepo.EXPECT().Create(&models.Album{Name: "Abbey Road"}).Return(expectedAlbum, nil)
+
+		result, err := albumService.CreateAlbum("Abbey Road")
+		assert.NoError(t, err)
+		assert.Equal(t, expectedAlbum.Name, result.Name)
+		assert.Equal(t, expectedAlbum.ID, uint(result.Id))
+	})
+}
