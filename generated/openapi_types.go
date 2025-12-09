@@ -15,6 +15,13 @@ type Album struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// AnmeldelseSlim defines model for AnmeldelseSlim.
+type AnmeldelseSlim struct {
+	AntallStjerner int64  `json:"antallStjerner"`
+	Id             int64  `json:"id"`
+	NavnPaaMedie   string `json:"navnPaaMedie"`
+}
+
 // CreateAlbumRequest defines model for CreateAlbumRequest.
 type CreateAlbumRequest struct {
 	Name string `json:"name"`

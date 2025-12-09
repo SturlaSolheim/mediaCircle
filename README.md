@@ -28,3 +28,12 @@ For å kjøre alle testene kan du bruke tst.sh scriptet. Det genererer mocks og 
 [x] Sette opp enhetstester
 [x] OpenApi for kontrakt
 [x] Implementere agnostisk databasemigrering (brukte gorm automigrate)
+
+## Forslag til tags i api
+
+- anmeldelse
+- bruker
+- gruppe
+- liste
+- listeinstans
+- notifikasjon

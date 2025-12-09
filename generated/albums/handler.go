@@ -12,10 +12,10 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// Henter alle album
+	// henter alle album
 	// (GET /albums)
 	GetAlbums(w http.ResponseWriter, r *http.Request)
-	// Nytt Album
+	// nytt album
 	// (POST /albums)
 	CreateAlbum(w http.ResponseWriter, r *http.Request)
 }
@@ -24,13 +24,13 @@ type ServerInterface interface {
 
 type Unimplemented struct{}
 
-// Henter alle album
+// henter alle album
 // (GET /albums)
 func (_ Unimplemented) GetAlbums(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Nytt Album
+// nytt album
 // (POST /albums)
 func (_ Unimplemented) CreateAlbum(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
