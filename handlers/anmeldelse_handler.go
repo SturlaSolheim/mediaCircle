@@ -1,7 +1,6 @@
 package handlers
 
 import( 
-	"encoding/json"
 	"net/http"
 	"github.com/SturlaSolheim/mediaCircleBackend/generated/anmeldelse"
 	"github.com/SturlaSolheim/mediaCircleBackend/service"
@@ -20,14 +19,13 @@ func NewOpenAPIAnmeldelseHandler(
 	}
 }
 func (h *AnmeldelseHandlerImpl) GetAlleAnmeldelserForBruker(w http.ResponseWriter, r *http.Request, bruker string) {
-	w.Header().Set("Content-Type", "application/json")
 	
 	anmeldelser, err := h.anmeldelseService.GetAlleAnmeldelserForEnBruker()
 	if err != nil {
+		WriteInternalServerError(w, "Internal server error")
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(anmeldelser)
+	WriteJSON(w, http.StatusOK, anmeldelser)
 }
 
 

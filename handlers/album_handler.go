@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
-
 	"github.com/SturlaSolheim/mediaCircleBackend/generated"
 	"github.com/SturlaSolheim/mediaCircleBackend/generated/albums"
 	"github.com/SturlaSolheim/mediaCircleBackend/service"
@@ -22,46 +20,27 @@ func NewOpenAPIAlbumHandler(
 }
 
 func (h *AlbumHandlerImpl) GetAlbums(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	
 	albums, err := h.albumService.GetAlbums()
 	if err != nil {
-		h.returnInternalServerError(w, "Internal server error")
+		WriteInternalServerError(w, "Internal server error")
 		return
 	}
 	
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(albums)
+	WriteJSON(w, http.StatusOK, albums)
 }
 
 func (h *AlbumHandlerImpl) CreateAlbum(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	
-	var req generated.CreateAlbumRequest;
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		h.returnBadRequest(w, "Invalid JSON")
+	var request generated.CreateAlbumRequest
+	if err := DecodeJSON(r, &request); err != nil {
+		WriteBadRequest(w, "Invalid JSON")
 		return
 	}
 	
-	album, err := h.albumService.CreateAlbum(req.Name)
-	if   err != nil {
-		h.returnInternalServerError(w, "Internal server error")
+	album, err := h.albumService.CreateAlbum(request.Name)
+	if err != nil {
+		WriteInternalServerError(w, "Internal server error")
 		return
 	}
 	
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(album)
-}
-
-
-func (h *AlbumHandlerImpl) returnBadRequest(w http.ResponseWriter, message string) {
-	w.WriteHeader(http.StatusBadRequest)
-	response := generated.Response{Message: message, Status: 400}
-	json.NewEncoder(w).Encode(response)
-}
-
-func (h *AlbumHandlerImpl) returnInternalServerError(w http.ResponseWriter, message string) {
-	w.WriteHeader(http.StatusInternalServerError)
-	response := generated.Response{Message: message, Status: 500}
-	json.NewEncoder(w).Encode(response)
+	WriteJSON(w, http.StatusCreated, album)
 }
