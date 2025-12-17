@@ -27,6 +27,11 @@ type CreateAlbumRequest struct {
 	Name string `json:"name"`
 }
 
+// Liste defines model for Liste.
+type Liste struct {
+	Name string `json:"name"`
+}
+
 // Response defines model for Response.
 type Response struct {
 	Message string `json:"message"`

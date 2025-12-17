@@ -10,7 +10,44 @@ servers:
     description: Development server
 
 paths:
-
+  /liste/{id}: 
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: Hvilken liste skal hentes
+          schema:
+            type: integer
+      description: Henter liste
+      operationId: getListe
+      tags:
+        - liste
+      responses:
+        '200':
+          description: objekter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Liste'
+  /liste/test/{id}: 
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: Hvilken liste skal hentes
+          schema:
+            type: integer
+      description: Henter liste
+      operationId: getListeTest
+      tags:
+        - liste
+      responses:
+        '200':
+          description: objekter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Liste'
   /anmeldelse/slim/{brukerId}:
     get:
       parameters:
@@ -132,6 +169,14 @@ components:
           type: string
           minLength: 1
     CreateAlbumRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    Liste:
       type: object
       required:
         - name

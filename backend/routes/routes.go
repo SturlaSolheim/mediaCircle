@@ -24,15 +24,18 @@ func NewOpenAPIContainer() *OpenAPIContainer {
 	// Services
 	albumService := service.NewAlbumService(albumRepository, *albumMapper)
 	anmeldelseService := service.NewAnmeldelseService()
+	listeService := service.NewListeService()
 
 	// Handlers
 	albumHandler := handlers.NewOpenAPIAlbumHandler(albumService)
 	anmeldelseHandler := handlers.NewOpenAPIAnmeldelseHandler(anmeldelseService)
+	listeHandler := handlers.NewOpenAPIListeHandler(listeService)
 
 	// Composite
 	compositeHandler := handlers.NewCompositeHandler(
 		albumHandler,
 		anmeldelseHandler,
+		listeHandler,
 	)
 
 	return &OpenAPIContainer{
